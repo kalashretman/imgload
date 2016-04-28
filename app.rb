@@ -26,7 +26,7 @@ class App < Sinatra::Application
 
   post '/imgload' do      
     param :image,  String, in: ['resize'],  required: true
-    param :task,   Float,  required: true
+    param :task,   String, required: true
     param :params, String, required: true
 
     taskobj = Factory.getInst.getObject params
