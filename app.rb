@@ -2,17 +2,19 @@ require 'sinatra'
 require 'sinatra/base'
 require 'sinatra/param'
 require 'sinatra/json'
+require 'shotgun'
 require 'mongoid'
 require 'dotenv'
+require 'carrierwave'
 require 'sinatra-initializers'
-require 'carrierwave/mongoid'
+require 'carrierwave-mongoid'
 require 'active_model_serializers'
 require 'mini_magick'
-require './uploaders/image_uploader'
 require './models/task'
 require 'require_all'
 
 require_all 'serializers'
+require_all 'uploaders'
 
 Dotenv.load
 
@@ -29,13 +31,13 @@ class App < Sinatra::Application
     param :task,   String, required: true
     param :params, String, required: true
 
-    taskobj = Factory.getInst.getObject params
+    taskobj = Factory.getInstance.getObject params
     task = taskobj.processed params
 
     json task
   end
 
-  get 'get_task/:id' do
+  get '/get_task/:id' do
     param :id, String, required: true
     result = Task.find params['id']
 
