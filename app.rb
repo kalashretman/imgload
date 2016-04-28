@@ -7,11 +7,12 @@ require 'dotenv'
 require 'sinatra-initializers'
 require 'carrierwave/mongoid'
 require 'active_model_serializers'
-
+require 'mini_magick'
 require './uploaders/image_uploader'
-require './models/calculation'
-require './serializers/base_serializer'
-require './serializers/calculation_serializer'
+require './models/task'
+require 'require_all'
+
+require_all 'serializers'
 
 Dotenv.load
 
@@ -36,7 +37,7 @@ class App < Sinatra::Application
 
   get 'get_task/:id' do
     param :id, String, required: true
-    result = Task.find_id params['id']
+    result = Task.find params['id']
 
     json result
   end
